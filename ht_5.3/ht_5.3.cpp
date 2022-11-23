@@ -7,6 +7,15 @@ protected:
 	std::string name;
 	int points;
 
+	virtual void print_info_() {
+		std::cout << name << ":\n";
+		std::cout << ((this->IsRight()) ? "Правильная" : "Неправильная") << "\n";
+		std::cout << "Стороны: " << points << "\n";
+	}
+
+	virtual bool IsRight() {
+		return true;
+	}
 	
 public:
 	Figure() {
@@ -14,14 +23,8 @@ public:
 		points = 0;
 	}
 
-	virtual bool IsRight() {
-		return true;
-	}
-
-	virtual void print_info() {
-		std::cout << name << ":\n";
-		std::cout << ((this->IsRight()) ? "Правильная" : "Неправильная") << "\n";
-		std::cout << "Стороны: " << points << "\n";
+	void print_info(Figure* f) {
+		f->print_info_();
 	}
 };
 
@@ -41,18 +44,7 @@ protected:
 		points = 3;
 	}
 
-public:
-
-	Triangle(int a, int b, int c, int A, int B, int C) : Triangle() {
-		this->a = a;
-		this->b = b;
-		this->c = c;
-		this->A = A;
-		this->B = B;
-		this->C = C;
-	}
-
-	void print_info() override {
+	void print_info_() override {
 		std::cout << name << ":\n";
 		std::cout << ((this->IsRight() && Triangle::IsRight()) ? "Правильная" : "Неправильная") << "\n";
 		std::cout << "Количество сторон: " << this->points << "\n";
@@ -62,6 +54,17 @@ public:
 
 	bool IsRight() override {
 		return A + B + C == 180 && this->points == 3;
+	}
+
+public:
+
+	Triangle(int a, int b, int c, int A, int B, int C) : Triangle() {
+		this->a = a;
+		this->b = b;
+		this->c = c;
+		this->A = A;
+		this->B = B;
+		this->C = C;
 	}
 };
 
@@ -118,6 +121,18 @@ protected:
 		points = 4;
 	}
 
+	void print_info_() override {
+		std::cout << name << ":\n";
+		std::cout << ((this->IsRight() && Quadrangle::IsRight()) ? "Правильная" : "Неправильная") << "\n";
+		std::cout << "Количество сторон: " << this->points << "\n";
+		std::cout << "Стороны: a=" << a << " b=" << b << " c=" << c << " d=" << d << "\n";
+		std::cout << "Углы: A=" << A << " B=" << B << " C=" << C << " D=" << D << "\n";
+	}
+
+	bool IsRight() override {
+		return A + B + C + D == 360 && this->points == 4;
+	}
+
 public:
 	Quadrangle(int a, int b, int c, int d, int A, int B, int C, int D) : Quadrangle() {
 		this->a = a;
@@ -128,18 +143,6 @@ public:
 		this->B = B;
 		this->C = C;
 		this->D = D;
-	}
-
-	void print_info() override {
-		std::cout << name << ":\n";
-		std::cout << ((this->IsRight() && Quadrangle::IsRight()) ? "Правильная" : "Неправильная") << "\n";
-		std::cout << "Количество сторон: " << this->points << "\n";
-		std::cout << "Стороны: a=" << a << " b=" << b << " c=" << c << " d=" << d << "\n";
-		std::cout << "Углы: A=" << A << " B=" << B << " C=" << C << " D=" << D << "\n";
-	}
-
-	bool IsRight() override {
-		return A + B + C + D == 360 && this->points == 4;
 	}
 };
 
@@ -196,50 +199,50 @@ int main()
 	SetConsoleOutputCP(1251);
 
 	Figure f = Figure();
-	f.print_info();
+	f.print_info(&f);
 	std::cout << std::endl;
 
 	Triangle tr = Triangle(10, 20, 30, 30, 60, 90);
 	Figure* fig = &tr;
-	fig->print_info();
+	tr.print_info(fig);
 	std::cout << std::endl;
 
 	RightTriangle rt = RightTriangle(1, 1, 1, 45, 45);
 	fig = &rt;
-	fig->print_info();
+	rt.print_info(fig);
 	std::cout << std::endl;
 
     rt = RightTriangle(1, 1, 1, 2, 2);
 	fig = &rt;
-	fig->print_info();
+	rt.print_info(fig);
 	std::cout << std::endl;
 
 	IsoscelesTriangle it = IsoscelesTriangle(10, 20, 100, 100);
 	fig = &it;
-	fig->print_info();
+	it.print_info(fig);
 	std::cout << std::endl;
 
 	EquilateralTriangle et = EquilateralTriangle(200);
 	fig = &et;
-	fig->print_info();
+	et.print_info(fig);
 	std::cout << std::endl;
 
 	Parallelogram p = Parallelogram(10, 20, 30, 60);
 	fig = &p;
-	fig->print_info();
+	p.print_info(fig);
 	std::cout << std::endl;
 
 	Rect rect = Rect(10, 20);
 	fig = &rect;
-	fig->print_info();
+	rect.print_info(fig);
 	std::cout << std::endl;
 
 	Rhombus rhomb = Rhombus(10, 45, 45);
 	fig = &rhomb;
-	fig->print_info();
+	rhomb.print_info(fig);
 	std::cout << std::endl;
 
 	Square square = Square(30);
 	fig = &square;
-	fig->print_info();
+	square.print_info(fig);
 }
